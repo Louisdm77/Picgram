@@ -21,9 +21,10 @@ export interface Post {
   date: Date;
 }
 
-export interface PhotoMeta {
-  cdnUrl: string;
-  uuid: string;
+interface PhotoMeta {
+  url: string | null;
+  cdnUrl: string | null;
+  uuid: string; // Add uuid as required
 }
 
 export interface FileEntry {

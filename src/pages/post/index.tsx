@@ -1,7 +1,7 @@
 import * as React from "react";
 import Layout from "../../components/layout";
 import { Textarea } from "../../components/ui/textarea";
-import { Button } from "../../components/ui//button";
+import { Button } from "../../components/ui/button";
 import {
   FileUploaderRegular,
   type UploadCtxProvider,
@@ -11,27 +11,20 @@ import { useUserAuth } from "@/assets/context/userAuthContext";
 import { FileEntry, Post } from "../../types";
 import { OutputFileEntry } from "@uploadcare/file-uploader";
 
-interface ICreatePostProps {}
+interface PhotoMeta {
+  url: string | null;
+  cdnUrl: string | null;
+  uuid: string; 
+}
 
-type FileUploaderProps = {
-  uploaderClassName: string;
-  files: OutputFileEntry[];
-  onChange: (files: OutputFileEntry[]) => void;
-};
-
-const CreatePost: React.FunctionComponent<ICreatePostProps> = ({
-  uploaderClassName,
-  files,
-  onChange,
-}: FileUploaderProps) => {
-
+const CreatePost: React.FunctionComponent = () => {
   const { user } = useUserAuth();
   const [fileEntry, setFileEntry] = React.useState<FileEntry>({ files: [] });
 
-  const handleChangeEvent = (files{ allEntries: OutputFileEntry[] }) => {
-    setUploadedFiles([
-      ...files.allEntries.filter((f: OutputFileEntry) => f.status === "success"),
-    ] as OutputFileEntry<"success">[]);
+  const handleChangeEvent = ({ allEntries }: { allEntries: OutputFileEntry[] }) => {
+    setFileEntry({
+      files: allEntries.filter((f) => f.status === "success"),
+    });
   };
 
   const [post, setPost] = React.useState<Post>({
@@ -39,23 +32,43 @@ const CreatePost: React.FunctionComponent<ICreatePostProps> = ({
     photos: [],
     likes: 0,
     userLikes: [],
-    userId: "",
+    userId: user?.uid || "",
     date: new Date(),
   });
 
-  const handleSubmit = async (e: React.MouseEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("The file is :", fileEntry);
-    console.log("the post is:", post);
+
+    // Map uploaded files to the PhotoMeta type
+    const uploadedPhotoUrls: PhotoMeta[] = fileEntry.files.map((file) => ({
+      url: file.cdnUrl,
+      cdnUrl: file.cdnUrl,
+      uuid: file.uuid || "", 
+    }));
+
+    setPost((prevPost) => ({
+      ...prevPost,
+      photos: uploadedPhotoUrls, 
+    }));
+
+    console.log("The file entry is:", fileEntry);
+    console.log("The post data is:", {
+      ...post,
+      photos: uploadedPhotoUrls,
+    });
+
+    // Reset the form after submission
     setPost({
       caption: "",
       photos: [],
       likes: 0,
       userLikes: [],
-      userId: "",
+      userId: user?.uid || "",
       date: new Date(),
     });
+    setFileEntry({ files: [] });
   };
+
   return (
     <div>
       <Layout>
@@ -70,9 +83,9 @@ const CreatePost: React.FunctionComponent<ICreatePostProps> = ({
               id="post"
               className="mt-10 h-30 rounded border border-2 border-gray-900"
               value={post.caption}
-              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
-                setPost({ ...post, caption: e.target.value });
-              }}
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                setPost({ ...post, caption: e.target.value })
+              }
             />
             <label
               htmlFor="upload"
@@ -83,9 +96,37 @@ const CreatePost: React.FunctionComponent<ICreatePostProps> = ({
             <FileUploaderRegular
               sourceList="local, url, camera, dropbox"
               classNameUploader="uc-light"
-              pubkey="7034120474d577e8a991"
-              className="mt-4 flex justify-start items-start "
+              pubkey="4dbac5aa7f40d2914d6b"
+              className="mt-4 flex justify-start items-start"
+              onChange={handleChangeEvent}
             />
+            <div className="uploaded-photos mt-4">
+              {fileEntry.files.length > 0 && (
+                <div>
+                  <h4 className="font-bold">Uploaded Photos:</h4>
+                  <div className="flex gap-2 flex-wrap">
+                    {/* {fileEntry.files.map((file, index) => (
+                      <img
+                        key={index}
+                        src={file.cdnUrl}
+                        alt={`Uploaded file ${index + 1}`}
+                        className="w-32 h-32 object-cover rounded"
+                      />
+                    ))} */}
+                    {fileEntry.files.map((file, index) => (
+  file.cdnUrl ? (
+    <img
+      key={index}
+      src={file.cdnUrl}
+      alt={`Uploaded file ${index + 1}`}
+      className="w-32 h-32 object-cover rounded"
+    />
+  ) : null
+))}
+                  </div>
+                </div>
+              )}
+            </div>
             <Button
               type="submit"
               className="bg-gray-900 p-2 font-bold rounded mt-5 text-white flex items-start justify-start"
