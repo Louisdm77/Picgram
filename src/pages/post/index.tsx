@@ -8,16 +8,28 @@ import {
 } from "@uploadcare/react-uploader";
 import "@uploadcare/react-uploader/core.css";
 import { useUserAuth } from "@/assets/context/userAuthContext";
-import { FileEntry, Post, PhotoMeta } from "../../types";
+import { FileEntry, Post } from "../../types";
 import { OutputFileEntry } from "@uploadcare/file-uploader";
 
-type AllEntriesType = {
-  allEntries: OutputFileEntry[];
-};
+interface PhotoMeta {
+  url: string | null;
+  cdnUrl: string | null;
+  uuid: string;
+}
 
 const CreatePost: React.FunctionComponent = () => {
   const { user } = useUserAuth();
   const [fileEntry, setFileEntry] = React.useState<FileEntry>({ files: [] });
+
+  const handleChangeEvent = ({
+    allEntries,
+  }: {
+    allEntries: OutputFileEntry[];
+  }) => {
+    setFileEntry({
+      files: allEntries.filter((f) => f.status === "success"),
+    });
+  };
 
   const [post, setPost] = React.useState<Post>({
     caption: "",
@@ -27,12 +39,6 @@ const CreatePost: React.FunctionComponent = () => {
     userId: user?.uid || "",
     date: new Date(),
   });
-
-  const handleChangeEvent = ({ allEntries }: AllEntriesType) => {
-    setFileEntry({
-      files: allEntries.filter((f) => f.status === "success"),
-    });
-  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

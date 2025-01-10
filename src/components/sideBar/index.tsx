@@ -61,7 +61,7 @@ const SideBar: React.FunctionComponent<ISideBarProps> = () => {
   const { showSideBar, setShowSideBar } = useSideBarContext();
 
   return (
-    <div className="">
+    <div className="git">
       <div className={`md:hidden absolute p-4`}>
         <button
           className={`text-2xl ${!showSideBar ? "block" : "hidden"}`}
