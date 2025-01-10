@@ -22,7 +22,8 @@ export interface Post {
 }
 
 export interface PhotoMeta {
-  cdnUrl: string;
+  url: string | null;
+  cdnUrl: string | null;
   uuid: string;
 }
 

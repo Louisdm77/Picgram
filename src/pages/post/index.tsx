@@ -1,61 +1,86 @@
 import * as React from "react";
 import Layout from "../../components/layout";
 import { Textarea } from "../../components/ui/textarea";
-import { Button } from "../../components/ui//button";
+import { Button } from "../../components/ui/button";
 import {
   FileUploaderRegular,
   type UploadCtxProvider,
 } from "@uploadcare/react-uploader";
 import "@uploadcare/react-uploader/core.css";
 import { useUserAuth } from "@/assets/context/userAuthContext";
-import { FileEntry, Post } from "../../types";
+import { FileEntry, Post, PhotoMeta } from "../../types";
 import { OutputFileEntry } from "@uploadcare/file-uploader";
 
-interface ICreatePostProps {}
-
-type FileUploaderProps = {
-  uploaderClassName: string;
-  files: OutputFileEntry[];
-  onChange: (files: OutputFileEntry[]) => void;
+type AllEntriesType = {
+  allEntries: OutputFileEntry[];
 };
 
-const CreatePost: React.FunctionComponent<ICreatePostProps> = ({
-  uploaderClassName,
-  files,
-  onChange,
-}: FileUploaderProps) => {
-
+const CreatePost: React.FunctionComponent = () => {
   const { user } = useUserAuth();
   const [fileEntry, setFileEntry] = React.useState<FileEntry>({ files: [] });
-
-  const handleChangeEvent = (files{ allEntries: OutputFileEntry[] }) => {
-    setUploadedFiles([
-      ...files.allEntries.filter((f: OutputFileEntry) => f.status === "success"),
-    ] as OutputFileEntry<"success">[]);
-  };
 
   const [post, setPost] = React.useState<Post>({
     caption: "",
     photos: [],
     likes: 0,
     userLikes: [],
-    userId: "",
+    userId: user?.uid || "",
     date: new Date(),
   });
 
-  const handleSubmit = async (e: React.MouseEvent<HTMLFormElement>) => {
+  const handleChangeEvent = ({ allEntries }: AllEntriesType) => {
+    setFileEntry({
+      files: allEntries.filter((f) => f.status === "success"),
+    });
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("The file is :", fileEntry);
-    console.log("the post is:", post);
+
+    // Map uploaded files to the PhotoMeta type
+    const uploadedPhotoUrls: PhotoMeta[] = fileEntry.files.map((file) => ({
+      url: file.cdnUrl,
+      cdnUrl: file.cdnUrl,
+      uuid: file.uuid || "",
+    }));
+
+    setPost((prevPost) => ({
+      ...prevPost,
+      photos: uploadedPhotoUrls,
+    }));
+
+    console.log("The file entry is:", fileEntry);
+    console.log("The post data is:", {
+      ...post,
+      photos: uploadedPhotoUrls,
+    });
+
+    // Reset the form after submission
     setPost({
       caption: "",
       photos: [],
       likes: 0,
       userLikes: [],
-      userId: "",
+      userId: user?.uid || "",
       date: new Date(),
     });
+    setFileEntry({ files: [] });
   };
+
+  // const handleDelete = (index: number) => {
+  //   console.log("hi", index);
+  //   setPost((prev) => ({
+  //     ...prev,
+  //     photos: prev.photos.filter((_, i) => i !== index),
+  //   }));
+  //   setFileEntry((prev) => {
+  //     const updatedFiles = prev.files.filter((_, i) => i !== index);
+  //     return {
+  //       files: updatedFiles,
+  //     };
+  //   });
+  // };
+
   return (
     <div>
       <Layout>
@@ -70,9 +95,9 @@ const CreatePost: React.FunctionComponent<ICreatePostProps> = ({
               id="post"
               className="mt-10 h-30 rounded border border-2 border-gray-900"
               value={post.caption}
-              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
-                setPost({ ...post, caption: e.target.value });
-              }}
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                setPost({ ...post, caption: e.target.value })
+              }
             />
             <label
               htmlFor="upload"
@@ -84,8 +109,49 @@ const CreatePost: React.FunctionComponent<ICreatePostProps> = ({
               sourceList="local, url, camera, dropbox"
               classNameUploader="uc-light"
               pubkey="7034120474d577e8a991"
-              className="mt-4 flex justify-start items-start "
+              className="mt-4 flex justify-start items-start"
+              onChange={handleChangeEvent}
+              multiple={true}
+              confirmUpload={false}
+              removeCopyright={true}
+              imgOnly={true}
             />
+            <div className="uploaded-photos mt-4">
+              {fileEntry.files.length > 0 && (
+                <div>
+                  <h4 className="font-bold">Uploaded Photos:</h4>
+                  <div className="flex gap-2 flex-wrap">
+                    {/* {fileEntry.files.map((file, index) => (
+                      <img
+                        key={index}
+                        src={file.cdnUrl}
+                        alt={`Uploaded file ${index + 1}`}
+                        className="w-32 h-32 object-cover rounded"
+                      />
+                    ))} */}
+                    {fileEntry.files.map((file, index) =>
+                      file.cdnUrl ? (
+                        <div className="relative">
+                          <img
+                            key={index}
+                            src={file.cdnUrl}
+                            alt={`Uploaded file ${index + 1}`}
+                            className="w-32 h-32 object-cover rounded"
+                          />
+                          <button
+                            type="button"
+                            className="absolute font-bold top-[-2] right-[-2]  rounded p-1"
+                            // onClick={() => handleDelete(index)}
+                          >
+                            x
+                          </button>
+                        </div>
+                      ) : null
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
             <Button
               type="submit"
               className="bg-gray-900 p-2 font-bold rounded mt-5 text-white flex items-start justify-start"

@@ -8,7 +8,7 @@ interface IAppProps {}
 const App: React.FunctionComponent<IAppProps> = (props) => {
   return (
     <UserAuthProvider>
-      <RouterProvider router={router} />;
+      <RouterProvider router={router} />
     </UserAuthProvider>
   );
 };

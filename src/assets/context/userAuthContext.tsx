@@ -67,6 +67,7 @@ const userAuthContext = createContext<UserAuthType>({
 export const UserAuthProvider: React.FunctionComponent<{
   children: React.ReactNode;
 }> = ({ children }) => {
+  const [showSideBar, setShowSideBar] = useState(false);
   const [user, setUser] = useState<User | null>(null); //create a state that updates the user(active | loggedOut)
 
   //  use useeffect to listen for changes in the login and logout status
