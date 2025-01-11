@@ -4,7 +4,7 @@ import { Textarea } from "../../components/ui/textarea";
 import { Button } from "../../components/ui/button";
 import {
   FileUploaderRegular,
-  type UploadCtxProvider,
+  // type UploadCtxProvider,
 } from "@uploadcare/react-uploader";
 import "@uploadcare/react-uploader/core.css";
 import { useUserAuth } from "@/assets/context/userAuthContext";

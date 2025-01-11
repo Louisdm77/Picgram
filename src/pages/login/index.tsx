@@ -14,10 +14,10 @@ import { Label } from "../../components/ui/label";
 import { UserLogIn } from "../../types";
 import { useUserAuth } from "@/assets/context/userAuthContext";
 import { Link, useNavigate } from "react-router-dom";
-import image from "../../assets/images/img.png";
+
 interface ILoginProps {}
 
-const Login: React.FunctionComponent<ILoginProps> = (props) => {
+const Login: React.FunctionComponent<ILoginProps> = () => {
   const { googleSignIn, logIn } = useUserAuth();
   const navigate = useNavigate();
   const initialValue: UserLogIn = {

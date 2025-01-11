@@ -18,7 +18,7 @@ import image from "../../assets/images/img.png";
 
 interface ISignupProps {}
 
-const Signup: React.FunctionComponent<ISignupProps> = (props) => {
+const Signup: React.FunctionComponent<ISignupProps> = () => {
   const { googleSignIn, signUp } = useUserAuth();
   const navigate = useNavigate();
   const initialValue: UserSignIn = {

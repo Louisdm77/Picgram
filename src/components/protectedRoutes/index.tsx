@@ -8,9 +8,7 @@ import { Spinner } from "../ui/spinner";
 
 interface IProtectedRoutesProps {}
 
-const ProtectedRoutes: React.FunctionComponent<IProtectedRoutesProps> = (
-  props
-) => {
+const ProtectedRoutes: React.FunctionComponent<IProtectedRoutesProps> = () => {
   const [user, loading] = useAuthState(auth);
   const location = useLocation();
 

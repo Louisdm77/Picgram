@@ -2,7 +2,7 @@ import * as React from "react";
 import Layout from "../../components/layout";
 interface IProfileProps {}
 
-const Profile: React.FunctionComponent<IProfileProps> = (props) => {
+const Profile: React.FunctionComponent<IProfileProps> = () => {
   return (
     <div>
       <Layout>
