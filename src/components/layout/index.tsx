@@ -43,7 +43,7 @@ const Layout: React.FunctionComponent<ILayoutProps> = ({ children }) => {
       >
         <SideBar />
       </aside>
-      <div className="w-full h-full">{children}</div>
+      <div className="w-full h-full text-center">{children}</div>
       <aside className="hidden lg:block lg:w-[30%] bg-gray-800 h-auto text-white text-center">
         <UserInfo />
       </aside>
