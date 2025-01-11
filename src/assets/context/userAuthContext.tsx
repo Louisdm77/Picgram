@@ -18,6 +18,8 @@ type UserAuthType = {
   signUp: typeof signUp;
   logOut: typeof logOut;
   googleSignIn: typeof googleSignIn;
+  showSideBar: boolean;
+  setShowSideBar: (show: boolean) => void;
 };
 
 const logIn = async (email: string, password: string) => {
@@ -54,13 +56,7 @@ const googleSignIn = async () => {
 
 //create the context to be shared with the other components
 
-const userAuthContext = createContext<UserAuthType>({
-  user: null,
-  logIn,
-  signUp,
-  logOut,
-  googleSignIn,
-});
+const userAuthContext = createContext<UserAuthType>({} as UserAuthType);
 
 //create a provider component with children as prop(the components that will be served the context)
 
@@ -90,6 +86,8 @@ export const UserAuthProvider: React.FunctionComponent<{
     signUp,
     logOut,
     googleSignIn,
+    showSideBar,
+    setShowSideBar,
   };
 
   //wrap the children in a provider tag with the contexts to be provided to the children

@@ -90,7 +90,7 @@ const CreatePost: React.FunctionComponent = () => {
   return (
     <div>
       <Layout>
-        <div className="p-8 border border-2 rounded-2xl">
+        <div className="p-8 border border-2 rounded-2xl ">
           <h3 className="text-center bg-gray-900 text-white font-bold p-3">
             CREATE POST
           </h3>
