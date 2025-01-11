@@ -14,7 +14,7 @@ const Layout: React.FunctionComponent<ILayoutProps> = ({ children }) => {
 
   return (
     <div className="flex relative">
-      <div className={`block md:hidden absolute p-2 z-50 `}>
+      <div className={`block md:hidden fixed top-10 left-0 p-2 z-50 `}>
         <button
           className={`text-2xl ${showSideBar ? "hidden" : "block"}`}
           onClick={() => {
@@ -43,7 +43,7 @@ const Layout: React.FunctionComponent<ILayoutProps> = ({ children }) => {
       >
         <SideBar />
       </aside>
-      <div className="w-full h-full text-center">{children}</div>
+      <div className="w-full h-full text-center m-4">{children}</div>
       <aside className="hidden lg:block lg:w-[30%] bg-gray-800 h-auto text-white text-center">
         <UserInfo />
       </aside>
