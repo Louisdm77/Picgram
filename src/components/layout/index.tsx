@@ -37,7 +37,7 @@ const Layout: React.FunctionComponent<ILayoutProps> = ({ children }) => {
       </div>
 
       <aside
-        className={`md:block fixed md:static top-0 left-0 w-[60%] md:w-[35%] h-full bg-gray-800 z-40 ${
+        className={`md:block  fixed md:static top-0 left-0 w-[60%] md:w-[35%] h-auto bg-gray-800 z-40 ${
           !showSideBar ? "hidden" : ""
         }`}
       >

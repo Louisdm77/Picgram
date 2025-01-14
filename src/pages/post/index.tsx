@@ -10,6 +10,8 @@ import "@uploadcare/react-uploader/core.css";
 import { useUserAuth } from "@/assets/context/userAuthContext";
 import { FileEntry, Post } from "../../types";
 import { OutputFileEntry } from "@uploadcare/file-uploader";
+import { createPost } from "@/repository/post.service";
+import { useNavigate } from "react-router-dom";
 
 interface PhotoMeta {
   url: string | null;
@@ -20,7 +22,7 @@ interface PhotoMeta {
 const CreatePost: React.FunctionComponent = () => {
   const { user } = useUserAuth();
   const [fileEntry, setFileEntry] = React.useState<FileEntry>({ files: [] });
-
+  const navigate = useNavigate();
   const handleChangeEvent = ({
     allEntries,
   }: {
@@ -36,7 +38,7 @@ const CreatePost: React.FunctionComponent = () => {
     photos: [],
     likes: 0,
     userLikes: [],
-    userId: user?.uid || "",
+    userId: user?.uid || "", //userID = user.uid or nothing
     date: new Date(),
   });
 
@@ -50,10 +52,27 @@ const CreatePost: React.FunctionComponent = () => {
       uuid: file.uuid || "",
     }));
 
-    setPost((prevPost) => ({
-      ...prevPost,
-      photos: uploadedPhotoUrls,
-    }));
+    // if (user !== null) {
+    //   setPost((prevPost) => ({
+    //     ...prevPost,
+    //     photos: uploadedPhotoUrls,
+    //   }));
+    //   await createPost(post);
+    //   navigate("/");
+    // } else {
+    //   navigate("/login");
+    // }
+
+    if (user !== null) {
+      const newPost: Post = {
+        ...post,
+        photos: uploadedPhotoUrls,
+      };
+      await createPost(newPost);
+      navigate("/");
+    } else {
+      navigate("/login");
+    }
 
     console.log("The file entry is:", fileEntry);
     console.log("The post data is:", {
