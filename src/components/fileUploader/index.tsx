@@ -1,10 +1,10 @@
-import * as React from "react";
-import "@uploadcare/react-uploader/core.css";
+import * as React from 'react';
 
-interface IFileUploaderProps {}
+interface IFileuploaderProps {
+}
 
-const FileUploader: React.FunctionComponent<IFileUploaderProps> = () => {
+const Fileuploader: React.FunctionComponent<IFileuploaderProps> = (props) => {
   return <div></div>;
 };
 
-export default FileUploader;
+export default Fileuploader;
