@@ -31,3 +31,4 @@ export const getPost = (id: string) => {
   const docRef = doc(collection(db, COLLECTION_NAME), id);
   return getDoc(docRef);
 };
+

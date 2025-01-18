@@ -45,7 +45,7 @@ const CreatePost: React.FunctionComponent = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Map uploaded files to the PhotoMeta type
+    // Map uploaded files to the PhotoMeta type and store them to be used as reference
     const uploadedPhotoUrls: PhotoMeta[] = fileEntry.files.map((file) => ({
       url: file.cdnUrl,
       cdnUrl: file.cdnUrl,

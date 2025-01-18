@@ -5,7 +5,7 @@ import { DocumentResponse, Post } from "../../types";
 import { getPostById } from "@/repository/post.service";
 interface IMyphotosProps {}
 
-const Myphotos: React.FunctionComponent<IMyphotosProps> = (props) => {
+const Myphotos: React.FunctionComponent<IMyphotosProps> = () => {
   const { user } = useUserAuth();
   const [data, setData] = React.useState<DocumentResponse[]>([]);
 
@@ -13,6 +13,7 @@ const Myphotos: React.FunctionComponent<IMyphotosProps> = (props) => {
     try {
       const querySnapShot = await getPostById(id);
       const tempArr: DocumentResponse[] = [];
+      console.log("Query Snapshot:", querySnapShot);
       if (querySnapShot.size > 0) {
         querySnapShot.forEach((doc) => {
           const data = doc.data() as Post;
@@ -36,12 +37,23 @@ const Myphotos: React.FunctionComponent<IMyphotosProps> = (props) => {
   React.useEffect(() => {
     if (user != null) {
       getAllPost(user.uid);
+      console.log(user.uid);
     }
   }, []);
   return (
     <div>
       <Layout>
-        <div>MyPhotos</div>
+        <div>
+          <h2 className="text-center">My Posts</h2>
+          <div>
+            {data.map((dat) => (
+              <div>
+                <p>{dat.caption}</p>
+                <img src={dat.photos[0].cdnUrl || undefined} alt="" />
+              </div>
+            ))}
+          </div>
+        </div>
       </Layout>
     </div>
   );

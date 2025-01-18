@@ -1,10 +1,9 @@
-import * as React from 'react';
+import * as React from "react";
 
-interface IFileuploaderProps {
-}
+interface IuplaoderProps {}
 
-const Fileuploader: React.FunctionComponent<IFileuploaderProps> = (props) => {
+const uplaoder: React.FunctionComponent<IuplaoderProps> = (props) => {
   return <div></div>;
 };
 
-export default Fileuploader;
+export default uplaoder;
