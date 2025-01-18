@@ -9,7 +9,7 @@ import {
   getDocs,
   where,
 } from "firebase/firestore";
-import { Post } from "@/types";
+import { Post } from "../types";
 
 const COLLECTION_NAME = "posts";
 
@@ -31,4 +31,3 @@ export const getPost = (id: string) => {
   const docRef = doc(collection(db, COLLECTION_NAME), id);
   return getDoc(docRef);
 };
-
