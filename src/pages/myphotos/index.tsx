@@ -2,11 +2,15 @@ import * as React from "react";
 import Layout from "../../components/layout";
 import { useUserAuth } from "../../assets/context/userAuthContext";
 import { DocumentResponse, Post } from "../../types";
-import { getPostById } from "@/repository/post.service";
+import { getPostById } from "../../repository/post.service";
+import { FaEllipsis } from "react-icons/fa6";
+// import { FaTimes } from "react-icons/fa";
+// import { CiHeart } from "react-icons/ci";
 interface IMyphotosProps {}
 
 const Myphotos: React.FunctionComponent<IMyphotosProps> = () => {
   const { user } = useUserAuth();
+  const [clicked, setClicked] = React.useState<boolean>(false);
   const [data, setData] = React.useState<DocumentResponse[]>([]);
 
   const getAllPost = async (id: string) => {
@@ -14,6 +18,7 @@ const Myphotos: React.FunctionComponent<IMyphotosProps> = () => {
       const querySnapShot = await getPostById(id);
       const tempArr: DocumentResponse[] = [];
       console.log("Query Snapshot:", querySnapShot);
+      console.log("tempArr: ", tempArr);
       if (querySnapShot.size > 0) {
         querySnapShot.forEach((doc) => {
           const data = doc.data() as Post;
@@ -43,15 +48,96 @@ const Myphotos: React.FunctionComponent<IMyphotosProps> = () => {
   return (
     <div>
       <Layout>
-        <div>
-          <h2 className="text-center">My Posts</h2>
-          <div>
-            {data.map((dat) => (
+        <div className="">
+          <h2 className="text-center font-extrabold text-2xl text-red-500 hidden m:block">
+            LouiGram's Post
+          </h2>
+          <div className="md:px-20">
+            {data.length > 0 ? (
               <div>
-                <p>{dat.caption}</p>
-                <img src={dat.photos[0].cdnUrl || undefined} alt="" />
+                {data.map((datt) => (
+                  <div className="shadow-md border border-2 border-gray-300 md:p-4 mt-6 rounded-xl p-2  bg-white">
+                    <div className="flex items-center justify-between ">
+                      <div className="flex items-center gap-2">
+                        <img
+                          className="w-10 h-10"
+                          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyzK2fuK3gDNJMRMKGHwHXfyqd6X1pL4lAxg&s"
+                          alt=""
+                        />
+                        <div className="">
+                          <h2 className="text-blue-500 font-bold">
+                            {" "}
+                            {`user ${datt.userId.slice(0, 5)}`}
+                          </h2>
+                          <div>
+                            <p className="text-start text-xs">{}</p>
+                          </div>
+                        </div>{" "}
+                      </div>
+                      <div className="">
+                        <button className="border border-2 border-gray-300 rounded-3xl p-2 hover:bg-gray-700 hover:text-white">
+                          <FaEllipsis />
+                        </button>
+                      </div>
+                    </div>
+
+                    <h1 className="text-start mb-4 mt-4">{datt.caption}</h1>
+                    <div className="w-full">
+                      <div className="w-full">
+                        {datt.photos.length > 1 ? (
+                          <div>
+                            <div className="grid grid-cols-3 gap-1">
+                              {datt.photos.slice(0, 3).map((pic) => (
+                                <div key={pic.url} className="w-40 h-40">
+                                  <img
+                                    src={pic.url || undefined}
+                                    alt=""
+                                    className="h-full w-full"
+                                  />
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        ) : datt.photos.length === 1 ? (
+                          <div
+                            key={datt.photos[0].cdnUrl}
+                            className="w-full h-full"
+                          >
+                            <img
+                              src={datt.photos[0].cdnUrl || undefined}
+                              alt=""
+                              className="h-full w-full"
+                            />
+                          </div>
+                        ) : (
+                          <div>No photos available</div> // Handle the case for no photos
+                        )}
+                      </div>
+                    </div>
+                    <div className="border-t-2 border-b-2 border-gray-300 p-2 mt-4 w-full flex justify-between px-6 bg-gray-200">
+                      <button
+                        className="rounded p-2 bg-white rounded border-2 border-gray-300 "
+                        onClick={() => {
+                          setClicked(!clicked);
+                          if (clicked) {
+                            datt.likes += 1;
+                          } else {
+                            datt.likes -= 1;
+                          }
+                        }}
+                      >
+                        Likes {`${datt.likes}`}
+                      </button>
+                      <button className="rounded p-2 bg-white rounded border-2 border-gray-300 ">
+                        Add to favorites
+                      </button>
+                    </div>
+                  </div>
+                ))}
               </div>
-            ))}
+            ) : (
+              <div>Absolutely nothing</div>
+            )}
           </div>
         </div>
       </Layout>
@@ -60,81 +146,3 @@ const Myphotos: React.FunctionComponent<IMyphotosProps> = () => {
 };
 
 export default Myphotos;
-
-// import * as React from "react";
-// import Layout from "../../components/layout";
-
-// interface IMyphotosProps {}
-
-// interface Photo {
-//   url: string;
-//   cdnUrl: string;
-//   uuid: string;
-// }
-
-// interface Post {
-//   caption: string;
-//   photos: Photo[];
-//   likes: number;
-//   userLikes: string[];
-//   userId: string;
-//   date: string;
-// }
-
-// const Myphotos: React.FunctionComponent<IMyphotosProps> = () => {
-//   // Assuming you fetched the data or passed it as props.
-//   const [posts, setPosts] = React.useState<Post[]>([]);
-
-//   React.useEffect(() => {
-//     // Fetch your posts from the backend.
-//     const fetchPosts = async () => {
-//       try {
-//         const response = await fetch("/api/posts"); // Replace with your actual API endpoint
-//         if (!response.ok) {
-//           throw new Error("Failed to fetch posts");
-//         }
-//         const data: Post[] = await response.json();
-//         setPosts(data);
-//       } catch (error) {
-//         console.error("Error fetching posts:", error);
-//       }
-//     };
-
-//     fetchPosts();
-//   }, []);
-
-//   return (
-//     <div>
-//       <Layout>
-//         <div className="p-8 border border-2 rounded-2xl">
-//           <h3 className="text-center bg-gray-900 text-white font-bold p-3">
-//             My Photos
-//           </h3>
-//           {posts.length > 0 ? (
-//             <div className="mt-4">
-//               {posts.map((post, index) => (
-//                 <div key={index} className="mb-8">
-//                   <h4 className="font-bold text-gray-800">{post.caption}</h4>
-//                   <div className="grid grid-cols-3 gap-4 mt-2">
-//                     {post.photos.map((photo, idx) => (
-//                       <img
-//                         key={idx}
-//                         src={photo.url}
-//                         alt={`Photo ${idx + 1}`}
-//                         className="w-32 h-32 object-cover rounded"
-//                       />
-//                     ))}
-//                   </div>
-//                 </div>
-//               ))}
-//             </div>
-//           ) : (
-//             <p className="text-center mt-4">No photos uploaded yet.</p>
-//           )}
-//         </div>
-//       </Layout>
-//     </div>
-//   );
-// };
-
-// export default Myphotos;

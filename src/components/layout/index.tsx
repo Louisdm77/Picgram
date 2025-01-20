@@ -13,8 +13,10 @@ const Layout: React.FunctionComponent<ILayoutProps> = ({ children }) => {
   const { showSideBar, setShowSideBar } = useUserAuth();
 
   return (
-    <div className="flex relative">
-      <div className={`block md:hidden fixed top-10 left-0 p-2 z-50 `}>
+    <div className="flex relative bg-gray-200">
+      <div
+        className={`block md:hidden fixed top-0 left-0 p-2 z-50  w-full shadow-xl bg-white`}
+      >
         <button
           className={`text-2xl ${showSideBar ? "hidden" : "block"}`}
           onClick={() => {
@@ -26,7 +28,7 @@ const Layout: React.FunctionComponent<ILayoutProps> = ({ children }) => {
         </button>
 
         <button
-          className={`text-2xl text-white ${showSideBar ? "block" : "hidden"}`}
+          className={`text-2xl text-black ${showSideBar ? "block" : "hidden"}`}
           onClick={() => {
             setShowSideBar(false);
             console.log(showSideBar);
@@ -43,7 +45,9 @@ const Layout: React.FunctionComponent<ILayoutProps> = ({ children }) => {
       >
         <SideBar />
       </aside>
-      <div className="w-full h-full text-center m-4">{children}</div>
+      <div className="w-full h-full text-center m-4 bg-gray-200">
+        {children}
+      </div>
       <aside className="hidden lg:block lg:w-[30%] bg-gray-800 h-auto text-white text-center">
         <UserInfo />
       </aside>

@@ -55,8 +55,8 @@ const SideBar: React.FunctionComponent<ISideBarProps> = () => {
     },
   ];
   return (
-    <div className={``}>
-      <h2 className="text-red-400 text-2xl font-bold mt-8 text-center">
+    <div className={`px-4`}>
+      <h2 className="text-red-400 text-2xl font-bold mt-12 text-center">
         <span className="text-red-400">Loui</span>
         <span>Gram</span>
       </h2>

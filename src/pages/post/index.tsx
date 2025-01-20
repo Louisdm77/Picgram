@@ -109,16 +109,16 @@ const CreatePost: React.FunctionComponent = () => {
   return (
     <div>
       <Layout>
-        <div className="p-8 border border-2 rounded-2xl m-8">
+        <div className="p-1 border border-2 rounded-2xl mt-8 h-[93vh] scrollbar-hide">
           <h3 className="text-center bg-gray-900 text-white font-bold p-3">
             CREATE POST
           </h3>
-          <form className="p-4" onSubmit={handleSubmit}>
+          <form className="p-2" onSubmit={handleSubmit}>
             <label htmlFor="post">Show us your world</label>
             <Textarea
               placeholder="What about your world?.."
               id="post"
-              className="mt-10 h-30 rounded border border-2 border-gray-900"
+              className="mt-10 h-30 w-full rounded border border-2 border-gray-900"
               value={post.caption}
               onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
                 setPost({ ...post, caption: e.target.value })
@@ -191,9 +191,3 @@ const CreatePost: React.FunctionComponent = () => {
 };
 
 export default CreatePost;
-
-
-
-
-
-

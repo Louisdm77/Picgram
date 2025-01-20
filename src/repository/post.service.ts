@@ -23,7 +23,7 @@ export const getAllPosts = () => {
 };
 
 export const getPostById = (id: string) => {
-  const q = query(collection(db, COLLECTION_NAME), where("userId", "==", "id"));
+  const q = query(collection(db, COLLECTION_NAME), where("userId", "==", id));
   return getDocs(q);
 };
 
