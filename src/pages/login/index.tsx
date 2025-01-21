@@ -18,7 +18,7 @@ import { Link, useNavigate } from "react-router-dom";
 interface ILoginProps {}
 
 const Login: React.FunctionComponent<ILoginProps> = () => {
-  const { googleSignIn, logIn } = useUserAuth();
+  const { googleSignIn, logIn, setShowSideBar } = useUserAuth();
   const navigate = useNavigate();
   const initialValue: UserLogIn = {
     email: "",
@@ -33,6 +33,7 @@ const Login: React.FunctionComponent<ILoginProps> = () => {
     try {
       console.log("the user info is :", userLogInInfo);
       await logIn(userLogInInfo.email, userLogInInfo.password);
+      setShowSideBar(false);
       navigate("/");
     } catch (err) {
       console.log("err: ", err);

@@ -16,7 +16,7 @@ interface ISideBarProps {}
 
 const SideBar: React.FunctionComponent<ISideBarProps> = () => {
   const [clicked, setClicked] = useState<string>("");
-  const { logOut } = useUserAuth();
+  const { logOut, setShowSideBar } = useUserAuth();
   const navList = [
     {
       name: "Home",
@@ -55,8 +55,8 @@ const SideBar: React.FunctionComponent<ISideBarProps> = () => {
     },
   ];
   return (
-    <div className={`px-4`}>
-      <h2 className="text-red-400 text-2xl font-bold mt-12 text-center">
+    <div className={``}>
+      <h2 className="text-red-400 text-2xl font-bold mt-12 md:mt-2 text-center">
         <span className="text-red-400">Loui</span>
         <span>Gram</span>
       </h2>
@@ -69,7 +69,10 @@ const SideBar: React.FunctionComponent<ISideBarProps> = () => {
                 <div
                   className="flex-col mb-2 font-bold text-center p-4 hover:bg-gray-700 hover:text-black text-white"
                   key={index}
-                  onClick={() => setClicked(nav.name)}
+                  onClick={() => {
+                    setClicked(nav.name);
+                    setShowSideBar(false);
+                  }}
                   style={{
                     backgroundColor: clicked === nav.name ? "black" : "",
                     color: clicked === nav.name ? "white" : "white",
