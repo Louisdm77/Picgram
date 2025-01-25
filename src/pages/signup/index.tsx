@@ -55,11 +55,11 @@ const Signup: React.FunctionComponent<ISignupProps> = () => {
     }
   };
   return (
-    <div className="md:flex justify-around items-center bg-blue-300 h-[100vh] fixed">
-      <div className="hidden md:block md:w-[45%]">
+    <div className="md:flex justify-around items-center bg-blue-300 w-full p-4 h-[100vh] fixed">
+      <div className="hidden md:block md:hidden">
         <img src={image} alt="connect" />
       </div>
-      <Card className="md:w-[25%]  mt-10 p-4 animate__animated animate__fadeInUp animate__animated animate__fadeInUp">
+      <Card className="lg:w-[25%] md:w-[50%] mt-10 p-4 bg-blue-100 animate__animated animate__fadeInUp animate__animated animate__fadeInUp">
         <form onSubmit={handleSubmit}>
           <h2 className="text-center font-bold text-3xl">
             <span className="text-red-400">Pic</span>

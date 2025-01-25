@@ -12,16 +12,19 @@ interface ILayoutProps {
 const Layout: React.FunctionComponent<ILayoutProps> = ({ children }) => {
   const { showSideBar, setShowSideBar } = useUserAuth();
 
+  React.useEffect(() => {
+    console.log(showSideBar);
+  }, [showSideBar]);
   return (
-    <div className="flex relative bg-gray-200">
+    <div className="grid lg:grid-cols-[20%_60%_20%] md:grid-cols-[20%_80%] relative  ">
       <div
-        className={`block md:hidden fixed top-0 left-0 p-2 z-50  w-full shadow-xl bg-white`}
+        className={`block md:hidden fixed top-0 left-0 p-2 z-50 w-full shadow-xl bg-white`}
       >
         <button
           className={`text-2xl ${showSideBar ? "hidden" : "block"}`}
           onClick={() => {
             setShowSideBar(true);
-            console.log(showSideBar);
+            document.body.style.overflow =  "hidden" 
           }}
         >
           <GiHamburgerMenu />
@@ -31,24 +34,18 @@ const Layout: React.FunctionComponent<ILayoutProps> = ({ children }) => {
           className={`text-2xl text-black ${showSideBar ? "block" : "hidden"}`}
           onClick={() => {
             setShowSideBar(false);
-            console.log(showSideBar);
+            document.body.style.overflow =  "auto" 
           }}
         >
           <FaTimes />
         </button>
       </div>
 
-      <aside
-        className={`md:block h-screen  fixed md:static top-0 left-0 w-[60%] md:w-[35%] h-auto bg-gray-800 z-40 ${
-          !showSideBar ? "hidden" : ""
-        }`}
-      >
+      <aside className={` md:block ${!showSideBar ? "hidden" : ""}`}>
         <SideBar />
       </aside>
-      <div className="w-full h-full text-center m-4 bg-gray-200 mt-14">
-        {children}
-      </div>
-      <aside className="hidden lg:block lg:w-[30%] bg-gray-800 h-auto text-white text-center">
+      <div className=" h-full  text-center m-4 md:mt-0 md:p-6">{children}</div>
+      <aside className="hidden lg:block lg:w-[38%] bg-gray-800 h-auto text-white text-center">
         <UserInfo />
       </aside>
     </div>

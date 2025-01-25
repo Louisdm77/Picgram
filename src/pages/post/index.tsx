@@ -109,8 +109,8 @@ const CreatePost: React.FunctionComponent = () => {
   return (
     <div>
       <Layout>
-        <div className="p-1 border border-2 rounded-2xl mt-8 h-[93vh] scrollbar-hide">
-          <h3 className="text-center bg-gray-900 text-white font-bold p-3">
+        <div className="p-1 lg:mt-0 mt-8 md:mt-2 scrollbar-hide">
+          <h3 className="text-center bg-gray-900 text-white p-3 mt-6">
             CREATE POST
           </h3>
           <form className="p-2" onSubmit={handleSubmit}>
@@ -159,7 +159,7 @@ const CreatePost: React.FunctionComponent = () => {
                         <div className="relative">
                           <img
                             key={index}
-                            src={file.cdnUrl}
+                            src={`${file.cdnUrl}`}
                             alt={`Uploaded file ${index + 1}`}
                             className="w-32 h-32 object-cover rounded"
                           />

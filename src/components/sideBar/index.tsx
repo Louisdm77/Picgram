@@ -55,8 +55,8 @@ const SideBar: React.FunctionComponent<ISideBarProps> = () => {
     },
   ];
   return (
-    <div className={``}>
-      <h2 className="text-red-400 text-2xl font-bold mt-12 md:mt-2 text-center">
+    <div className={`md:block h-screen fixed top-0 left-0 w-[60%] md:w-[21%] h-auto bg-gray-800 z-40`}>
+      <h2 className="text-red-400 text-2xl font-bold mt-12 md:mt-8 text-center">
         <span className="text-red-400">Loui</span>
         <span>Gram</span>
       </h2>
@@ -72,6 +72,7 @@ const SideBar: React.FunctionComponent<ISideBarProps> = () => {
                   onClick={() => {
                     setClicked(nav.name);
                     setShowSideBar(false);
+                    document.body.style.overflow =  "auto" 
                   }}
                   style={{
                     backgroundColor: clicked === nav.name ? "black" : "",

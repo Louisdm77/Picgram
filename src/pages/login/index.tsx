@@ -52,7 +52,7 @@ const Login: React.FunctionComponent<ILoginProps> = () => {
 
   return (
     <div className="flex justify-around items-center p-4  w-full h-[100vh] bg-blue-400 fixed">
-      <Card className="w-full md:w-[25%] p-4  text-start bg-blue-100">
+      <Card className="w-full md:w-[50%] lg:w-[25%] p-4  text-start bg-blue-100">
         <form onSubmit={handleSubmit}>
           <h2 className="text-center font-bold text-3xl">
             <span className="text-red-400">Pic</span>

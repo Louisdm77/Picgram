@@ -3,14 +3,14 @@ import Layout from "../../components/layout";
 import { useUserAuth } from "../../assets/context/userAuthContext";
 import { DocumentResponse, Post } from "../../types";
 import { getPostById } from "../../repository/post.service";
-import { FaEllipsis } from "react-icons/fa6";
+// import { FaEllipsis } from "react-icons/fa6";
 // import { FaTimes } from "react-icons/fa";
 // import { CiHeart } from "react-icons/ci";
 interface IMyphotosProps {}
 
 const Myphotos: React.FunctionComponent<IMyphotosProps> = () => {
   const { user } = useUserAuth();
-  const [clicked, setClicked] = React.useState<boolean>(false);
+  // const [clicked, setClicked] = React.useState<boolean>(false);
   const [data, setData] = React.useState<DocumentResponse[]>([]);
 
   const getAllPost = async (id: string) => {
@@ -48,7 +48,38 @@ const Myphotos: React.FunctionComponent<IMyphotosProps> = () => {
   return (
     <div>
       <Layout>
-        <div className="">
+        <div className="p-1 lg:mt-0 mt-8 md:mt-0 w-full">
+          <h3 className="text-center bg-gray-900 text-white p-3 mt-6">My Photos</h3>
+          <div>
+            {data ? (
+              <div className="flex-wrap">
+                {data.map((datum) => (
+                  <div className="grid md:grid-cols-3">
+                    {datum.photos.map((pic) => (
+                      <div className="w-full h-56 mt-4">
+                        <img
+                          src={`${pic.cdnUrl}` || undefined}
+                          alt=""
+                          className="w-full h-full rounded-lg cursor-pointer"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div></div>
+            )}
+          </div>
+        </div>
+      </Layout>
+    </div>
+  );
+};
+
+export default Myphotos;
+{
+  /* <div className="">
           <h2 className="text-center font-extrabold text-2xl text-red-500 hidden m:block">
             LouiGram's Post
           </h2>
@@ -139,10 +170,5 @@ const Myphotos: React.FunctionComponent<IMyphotosProps> = () => {
               <div>Absolutely nothing</div>
             )}
           </div>
-        </div>
-      </Layout>
-    </div>
-  );
-};
-
-export default Myphotos;
+        </div> */
+}
