@@ -17,6 +17,10 @@ const Stories: React.FunctionComponent<IStoriesProps> = () => {
   const stories = [img, img7, img2, img3, img4, img0, img6];
   return (
     <div>
+      <h2 className="text-red-400 text-2xl font-bold mt-12 md:hidden text-center">
+        <span className="text-red-400">Loui</span>
+        <span>Gram</span>
+      </h2>
       <div className="relative w-[90%] md:w-[60%] m-auto ">
         <Input placeholder="search" className=" " />
         <button className="text-2xl absolute top-1 right-0">
@@ -24,7 +28,7 @@ const Stories: React.FunctionComponent<IStoriesProps> = () => {
         </button>
       </div>
       <div>
-        <h2 className="text-start mt-4 font-bold">Stories</h2>
+        <h2 className="text-start mt-4 font-bold text-xl">Stories</h2>
         <div className="flex items-center md:gap-4  gap-2 mt-4">
           {stories.map((pic, index) => (
             <div className="w-10 h-10 lg:w-20 lg:h-20 md:w-14 md:h-14 rounded-full border border-4 border-gray-800 m-auto">
