@@ -49,18 +49,20 @@ const Myphotos: React.FunctionComponent<IMyphotosProps> = () => {
     <div>
       <Layout>
         <div className="p-1 lg:mt-0 mt-8 md:mt-0 w-full">
-          <h3 className="text-center bg-gray-900 text-white p-3 mt-6">My Photos</h3>
+          <h3 className="text-center bg-gray-900 text-white p-3 mt-6">
+            My Photos
+          </h3>
           <div>
             {data ? (
-              <div className="flex-wrap">
+              <div className="">
                 {data.map((datum) => (
-                  <div className="grid md:grid-cols-3">
+                  <div className="md:grid md:grid-cols-3 gap-10 p-4">
                     {datum.photos.map((pic) => (
-                      <div className="w-full h-56 mt-4">
+                      <div className=" w-[80%] h-[64] md:w-40 md:h-40 mt-4 m-auto ">
                         <img
                           src={`${pic.cdnUrl}` || undefined}
                           alt=""
-                          className="w-full h-full rounded-lg cursor-pointer"
+                          className="w-full h-full m-auto  rounded-lg cursor-pointer"
                         />
                       </div>
                     ))}
