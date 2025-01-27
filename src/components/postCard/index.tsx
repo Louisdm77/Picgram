@@ -58,11 +58,13 @@ const PostCard: React.FunctionComponent<IPostCardProps> = () => {
               </div>
             </CardHeader>
             <CardContent>
-              <img
-                src={dat.photos[0].cdnUrl || undefined}
-                alt=""
-                className="w-50 h-60 rounded-lg mx-auto"
-              />
+              {dat.photos.length > 0 && (
+                <img
+                  src={dat.photos[0].cdnUrl || undefined}
+                  alt=""
+                  className="w-50 h-60 rounded-lg mx-auto"
+                />
+              )}
             </CardContent>
             <CardFooter>
               <div>
