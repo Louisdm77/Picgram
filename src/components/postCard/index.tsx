@@ -12,7 +12,7 @@ import { getAllPosts } from "@/repository/post.service";
 import { DocumentResponse } from "../../types";
 import img from "../../assets/images/dw4.jpg";
 import { CiHeart } from "react-icons/ci";
-import { useAuthState } from "react-firebase-hooks/auth";
+// import { useAuthState } from "react-firebase-hooks/auth";
 import { Spinner } from "../ui/spinner";
 
 interface IPostCardProps {}
