@@ -11,10 +11,12 @@ import img7 from "../../assets/images/dw7.png";
 // import img8 from "../../assets/images/dw8.png";
 // import img9 from "../../assets/images/dw9.png";
 import img0 from "../../assets/images/dw0.png";
+
 interface IStoriesProps {}
 
 const Stories: React.FunctionComponent<IStoriesProps> = () => {
   const stories = [img, img7, img2, img3, img4, img0, img6];
+ 
   return (
     <div>
       <h2 className="text-red-400 text-2xl font-bold mt-12 md:hidden text-center">
