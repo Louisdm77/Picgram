@@ -2,6 +2,7 @@ import { OutputFileEntry } from "@uploadcare/react-uploader";
 
 export interface UserSignIn {
   email: string;
+
   password: string;
   confirmPassword: string;
 }
@@ -13,6 +14,8 @@ export interface UserLogIn {
 }
 
 export interface Post {
+  user: string | null | undefined;
+  displayName: string | null | undefined;
   caption: string;
   photos: PhotoMeta[];
   likes: number;
@@ -33,6 +36,8 @@ export interface FileEntry {
 
 export interface DocumentResponse {
   id: string;
+  email: string | null | undefined;
+  displayName: string | null | undefined;
   caption: string;
   photos: PhotoMeta[];
   likes: number;

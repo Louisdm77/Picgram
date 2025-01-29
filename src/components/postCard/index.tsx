@@ -14,11 +14,12 @@ import img from "../../assets/images/dw4.jpg";
 import { CiHeart } from "react-icons/ci";
 // import { useAuthState } from "react-firebase-hooks/auth";
 import { Spinner } from "../ui/spinner";
+import { FiMessageCircle } from "react-icons/fi";
 
 interface IPostCardProps {}
 
 const PostCard: React.FunctionComponent<IPostCardProps> = () => {
-  const { user } = useUserAuth();
+  const { user, post } = useUserAuth();
   const [loading, setLoading] = React.useState<boolean>(false);
   const [data, setData] = React.useState<DocumentResponse[]>([]);
   const getAllPost = async () => {
@@ -27,6 +28,8 @@ const PostCard: React.FunctionComponent<IPostCardProps> = () => {
       const querySnapShot = await getAllPosts();
       const postArray = querySnapShot.docs.map((doc) => ({
         id: doc.id,
+        email: doc.data().user,
+        displayName: doc.data().displayName,
         caption: doc.data().caption,
         photos: doc.data().photos,
         likes: doc.data().likes,
@@ -35,7 +38,6 @@ const PostCard: React.FunctionComponent<IPostCardProps> = () => {
         date: doc.data().date,
       }));
       setData(postArray);
-      console.log(data);
     } catch (err) {
       console.log("err", err);
     } finally {
@@ -46,7 +48,12 @@ const PostCard: React.FunctionComponent<IPostCardProps> = () => {
   React.useEffect(() => {
     if (user != null) {
       getAllPost();
+      console.log(post.date);
     }
+  }, []);
+
+  React.useEffect(() => {
+    console.log(data);
   }, []);
   return (
     <div className="mt-4">
@@ -66,8 +73,14 @@ const PostCard: React.FunctionComponent<IPostCardProps> = () => {
                     className="w-10 h-10 rounded-full"
                   />
                 </div>
-                <div className="ml-4">
-                  <CardTitle className="text-start">Guest_user</CardTitle>
+                <div className="ml-2 text-sm">
+                  <CardTitle className="text-start block">
+                    {dat?.displayName !== null ? (
+                      <span>{dat.displayName}</span>
+                    ) : (
+                      <span>{dat.email}</span>
+                    )}
+                  </CardTitle>
                 </div>
               </div>
             </CardHeader>
@@ -80,15 +93,18 @@ const PostCard: React.FunctionComponent<IPostCardProps> = () => {
                 />
               )}
             </CardContent>
-            <CardFooter>
-              <div>
+            {/* <CardFooter>
+              <div className="flex justify-between item-center">
                 <p className="font-bold">{dat.caption}</p>
                 <div className="flex mt-4">
                   <CiHeart className="text-2xl" />
                   <p>{dat.likes} likes</p>
                 </div>
+                <div>
+                  <FiMessageCircle />
+                </div>
               </div>
-            </CardFooter>
+            </CardFooter> */}
           </Card>
         ))
       ) : (

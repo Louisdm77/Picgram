@@ -59,7 +59,7 @@ const Signup: React.FunctionComponent<ISignupProps> = () => {
       <div className="hidden md:block md:hidden">
         <img src={image} alt="connect" />
       </div>
-      <Card className="lg:w-[25%] md:w-[50%] mt-10 p-4 bg-blue-100 animate__animated animate__fadeInUp animate__animated animate__fadeInUp">
+      <Card className="lg:w-[25%] md:w-[50%]  p-4 bg-blue-100 animate__animated animate__fadeInUp animate__animated animate__fadeInUp">
         <form onSubmit={handleSubmit}>
           <h2 className="text-center font-bold text-3xl">
             <span className="text-red-400">Pic</span>

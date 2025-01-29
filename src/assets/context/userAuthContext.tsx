@@ -9,6 +9,7 @@ import {
 } from "firebase/auth";
 import React, { createContext, useState, useEffect, useContext } from "react";
 import { auth } from "../firebaseConfig";
+import { Post } from "../../types";
 
 // create UserAuthType, the type specification for the context
 
@@ -20,6 +21,8 @@ type UserAuthType = {
   googleSignIn: typeof googleSignIn;
   showSideBar: boolean;
   setShowSideBar: (show: boolean) => void;
+  post: Post;
+  setPost: (show: Post) => void;
 };
 
 const logIn = async (email: string, password: string) => {
@@ -65,7 +68,16 @@ export const UserAuthProvider: React.FunctionComponent<{
 }> = ({ children }) => {
   const [showSideBar, setShowSideBar] = useState(false);
   const [user, setUser] = useState<User | null>(null); //create a state that updates the user(active | loggedOut)
-
+  const [post, setPost] = useState<Post>({
+    user: null,
+    displayName: "",
+    caption: "",
+    photos: [],
+    likes: 0,
+    userLikes: [],
+    userId: "", //userID = user.uid or nothing
+    date: new Date(),
+  });
   //  use useeffect to listen for changes in the login and logout status
   useEffect(() => {
     // onAuthstatechanged used to check if the auth state is changed  inisde the useeffect
@@ -88,6 +100,8 @@ export const UserAuthProvider: React.FunctionComponent<{
     googleSignIn,
     showSideBar,
     setShowSideBar,
+    post,
+    setPost,
   };
 
   //wrap the children in a provider tag with the contexts to be provided to the children

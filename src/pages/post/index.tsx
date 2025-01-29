@@ -7,7 +7,7 @@ import {
   // type UploadCtxProvider,
 } from "@uploadcare/react-uploader";
 import "@uploadcare/react-uploader/core.css";
-import { useUserAuth } from "@/assets/context/userAuthContext";
+import { useUserAuth } from "../../assets/context/userAuthContext";
 import { FileEntry, Post } from "../../types";
 import { OutputFileEntry } from "@uploadcare/file-uploader";
 import { createPost } from "@/repository/post.service";
@@ -20,7 +20,11 @@ interface PhotoMeta {
 }
 
 const CreatePost: React.FunctionComponent = () => {
-  const { user } = useUserAuth();
+  React.useEffect(() => {
+    console.log(post);
+  }, []);
+
+  const { user, post, setPost } = useUserAuth();
   const [fileEntry, setFileEntry] = React.useState<FileEntry>({ files: [] });
   const navigate = useNavigate();
   const handleChangeEvent = ({
@@ -32,15 +36,6 @@ const CreatePost: React.FunctionComponent = () => {
       files: allEntries.filter((f) => f.status === "success"),
     });
   };
-
-  const [post, setPost] = React.useState<Post>({
-    caption: "",
-    photos: [],
-    likes: 0,
-    userLikes: [],
-    userId: user?.uid || "", //userID = user.uid or nothing
-    date: new Date(),
-  });
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -66,6 +61,7 @@ const CreatePost: React.FunctionComponent = () => {
     if (user !== null) {
       const newPost: Post = {
         ...post,
+        user: user.email,
         photos: uploadedPhotoUrls,
       };
       await createPost(newPost);
@@ -81,16 +77,25 @@ const CreatePost: React.FunctionComponent = () => {
     });
 
     // Reset the form after submission
-    setPost({
-      caption: "",
-      photos: [],
-      likes: 0,
-      userLikes: [],
-      userId: user?.uid || "",
-      date: new Date(),
-    });
+
     setFileEntry({ files: [] });
+    console.log(user);
   };
+
+  React.useEffect(() => {
+    if (user) {
+      setPost({
+        user: user.email,
+        displayName: user.displayName,
+        caption: "",
+        photos: [],
+        likes: 0,
+        userLikes: [],
+        userId: user.uid,
+        date: new Date(),
+      });
+    }
+  }, [user, setPost]);
 
   // const handleDelete = (index: number) => {
   //   console.log("hi", index);
@@ -180,6 +185,7 @@ const CreatePost: React.FunctionComponent = () => {
             <Button
               type="submit"
               className="bg-gray-900 p-2 font-bold rounded mt-5 text-white flex items-start justify-start"
+              onClick={() => console.log(post)}
             >
               POST
             </Button>

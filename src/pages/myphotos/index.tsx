@@ -15,15 +15,19 @@ const Myphotos: React.FunctionComponent<IMyphotosProps> = () => {
 
   const getAllPost = async (id: string) => {
     try {
-      const querySnapShot = await getPostById(id);
-      const tempArr: DocumentResponse[] = [];
+      const querySnapShot = await getPostById(id); //create a var for the snapshot data from firestore
+      const tempArr: DocumentResponse[] = []; //create an array of obj to store the data of each data from firestore
       console.log("Query Snapshot:", querySnapShot);
       console.log("tempArr: ", tempArr);
+      //check the length of the database
       if (querySnapShot.size > 0) {
         querySnapShot.forEach((doc) => {
-          const data = doc.data() as Post;
+          const data = doc.data() as Post; //doc.data() represents each data gotten from the database
           const responseObj: DocumentResponse = {
+            //a new obj that adds id to posttype for complete info
             id: doc.id,
+            email: user?.email,
+            displayName: user?.displayName,
             ...data,
           };
           console.log("the response object is:", responseObj);
